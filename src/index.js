@@ -11,8 +11,8 @@ mongoClient.connect(dbUrl, { useNewUrlParser: true }, function (error, database)
     if (error) return console.log(err)
     require('./routes')(app, db);
 
-    app.listen(3000, () => {
-        console.log("we are live on : " + 3000);
+    app.listen(3001, () => {
+        console.log("we are live on : " + 3001);
     })
     //perform operations here
 });

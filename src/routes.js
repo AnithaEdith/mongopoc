@@ -2,6 +2,8 @@ var ObjectId = require('mongodb').ObjectID;
 var _ = require('lodash')
 var dailyIncidentsView = require('./dailyIncidentsView.js')
 var bulkinsertIncidents = require('./bulkinsertIncidents.js')
+var dailyIncidents1View = require('./dailyIncidents1View.js')
+var dailyIncidents2View = require('./dailyIncidents2View.js')
 
 module.exports = function (app, client) {
 
@@ -43,4 +45,35 @@ module.exports = function (app, client) {
             }
         });
     });
+
+    app.get('/incidents1/daily/:type', (req, res) => {
+        dailyIncidents1View(client, res, req.params.type === 'incidentSev2' ? 'incidentSev2' : 'incidentsAll');
+    });
+
+    app.get('/incidents2/daily', (req, res) => {
+        dailyIncidents2View(client, res);
+    });
+
+    app.get('/incidents1', (req, res) => {
+        client.collection('incidents1').find({}).toArray(function (err, results) {
+            if (err) {
+                res.send({ 'error': "An error has occured" })
+            }
+            else {
+                res.send(results)
+            }
+        });
+    });
+
+    app.get('/incidents2', (req, res) => {
+        client.collection('incidents2').find({}).toArray(function (err, results) {
+            if (err) {
+                res.send({ 'error': "An error has occured" })
+            }
+            else {
+                res.send(results)
+            }
+        });
+    });
+
 };
